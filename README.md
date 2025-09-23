@@ -104,6 +104,42 @@ cat config/jenkins/jenkins-plugins.txt
 # Add ECR repository URL from Terraform output
 ```
 
+#### GitHub Credentials Setup (Private Repository)
+1. **Generate GitHub Personal Access Token**:
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate new token with `repo` scope for private repositories
+   - Copy the token securely
+
+2. **Configure Jenkins Credentials**:
+   - Navigate to Jenkins → Manage Jenkins → Manage Credentials
+   - Add new credential:
+     - Kind: `Username with password`
+     - Username: Your GitHub username
+     - Password: Your GitHub personal access token
+     - ID: `github-credentials`
+     - Description: `GitHub Access Token`
+
+3. **Update Jenkinsfile for Private Repo**:
+   ```groovy
+   pipeline {
+       agent any
+       
+       environment {
+           GITHUB_CREDENTIALS = credentials('github-credentials')
+       }
+       
+       stages {
+           stage('Checkout') {
+               steps {
+                   git credentialsId: 'github-credentials', 
+                       url: 'https://github.com/Shishant90/ci-cd-jenkins-aws.git'
+               }
+           }
+           // ... other stages
+       }
+   }
+   ```
+
 ### 5. Run Pipeline
 - Create new Jenkins pipeline job
 - Point to this repository

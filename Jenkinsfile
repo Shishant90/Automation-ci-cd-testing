@@ -1,7 +1,19 @@
 pipeline {
     agent any
     
+    environment {
+        GITHUB_CREDENTIALS = credentials('github-credentials')
+        AWS_CREDENTIALS = credentials('aws-credentials')
+    }
+    
     stages {
+        stage('Checkout') {
+            steps {
+                git credentialsId: 'github-credentials', 
+                    url: 'https://github.com/Shishant90/ci-cd-jenkins-aws.git'
+            }
+        }
+        
         stage('Build') {
             steps {
                 sh './deployment/scripts/build.sh'
@@ -16,7 +28,9 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                sh './deployment/scripts/deploy.sh'
+                withCredentials([aws(credentialsId: 'aws-credentials')]) {
+                    sh './deployment/scripts/deploy.sh'
+                }
             }
         }
     }
