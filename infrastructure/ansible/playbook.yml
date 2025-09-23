@@ -1,0 +1,21 @@
+---
+- name: Configure application servers
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Update system packages
+      yum:
+        name: "*"
+        state: latest
+    
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+    
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes

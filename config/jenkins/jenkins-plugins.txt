@@ -1,0 +1,7 @@
+pipeline-stage-view
+docker-workflow
+aws-credentials
+terraform
+ansible
+junit
+cobertura
