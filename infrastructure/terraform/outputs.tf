@@ -1,9 +1,24 @@
-output "ecr_repository_url" {
-  description = "ECR repository URL"
-  value       = aws_ecr_repository.app_repo.repository_url
+output "instance_id" {
+  description = "ID of the EC2 instance"
+  value       = aws_instance.web.id
 }
 
-output "ecs_cluster_name" {
-  description = "ECS cluster name"
-  value       = aws_ecs_cluster.main.name
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.web.public_ip
+}
+
+output "instance_public_dns" {
+  description = "Public DNS name of the EC2 instance"
+  value       = aws_instance.web.public_dns
+}
+
+output "website_url" {
+  description = "URL to access the website"
+  value       = "http://${aws_instance.web.public_ip}"
+}
+
+output "ssh_connection" {
+  description = "SSH connection command"
+  value       = "ssh -i ${var.key_name}.pem ubuntu@${aws_instance.web.public_ip}"
 }

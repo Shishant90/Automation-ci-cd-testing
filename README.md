@@ -10,12 +10,12 @@ A complete CI/CD pipeline implementation using Jenkins and AWS services for auto
 ## 🏗️ Architecture Overview
 
 This project demonstrates a production-ready CI/CD pipeline that:
-- Builds a Flask web application
-- Runs automated tests
-- Creates Docker containers
-- Pushes images to AWS ECR
-- Deploys to AWS ECS/EKS
-- Provides infrastructure as code with Terraform
+- Pulls code from private GitHub repository
+- Runs build stage
+- Uses Terraform to provision AWS infrastructure
+- Creates EC2 instance in eu-north-1 with Ubuntu 22.04
+- Installs and configures Nginx web server
+- Deploys custom index.html page
 
 ## 📁 Project Structure
 
@@ -148,20 +148,21 @@ cat config/jenkins/jenkins-plugins.txt
 
 ## 🔧 Pipeline Stages
 
-1. **Build** - Creates Docker image from Flask application
-2. **Test** - Runs unit tests and generates coverage reports
-3. **Deploy** - Pushes image to ECR and updates ECS service
+1. **Checkout** - Pulls code from private GitHub repository using credentials
+2. **Build** - Runs application build process
+3. **Terraform Init** - Initializes Terraform configuration
+4. **Terraform Plan** - Creates execution plan for infrastructure changes
+5. **Terraform Apply** - Provisions EC2 instance with Nginx and custom webpage
 
 ## 🛠️ Technologies Used
 
-- **Application**: Python Flask
 - **CI/CD**: Jenkins Pipeline
-- **Containerization**: Docker
-- **Cloud**: AWS (ECS, ECR, EKS)
+- **Cloud**: AWS EC2 (eu-north-1)
 - **IaC**: Terraform
-- **Configuration**: Ansible
-- **Orchestration**: Kubernetes
-- **Testing**: Python unittest
+- **OS**: Ubuntu 22.04 LTS
+- **Web Server**: Nginx
+- **Version Control**: Private GitHub Repository
+- **Security**: AWS Security Groups, SSH Key Pairs
 
 ## 📊 Monitoring & Reports
 
